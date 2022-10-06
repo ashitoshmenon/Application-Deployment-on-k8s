@@ -6,6 +6,7 @@ pipeline{
             stage("1- Code Quality check-SonarQube"){
                 agent {
                     docker {
+                        sh 'chmod 777 /var/run/docker.sock'
                         image 'openjdk:11'
                     }
                 }
