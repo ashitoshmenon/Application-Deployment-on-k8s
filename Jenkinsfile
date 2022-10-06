@@ -6,7 +6,6 @@ pipeline{
             stage("1- Code Quality check-SonarQube"){
                 agent {
                     docker {
-                        sh 'sudo usermod -a -G docker $USER'
                         image 'openjdk:11'
                     }
                 }
