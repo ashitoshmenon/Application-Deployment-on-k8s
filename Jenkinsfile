@@ -1,6 +1,5 @@
 pipeline{
     agent any
-
         stages{
             
             stage("1- Code Quality check-SonarQube"){
