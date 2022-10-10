@@ -1,11 +1,8 @@
 pipeline{
     agent any
         stages{
-            
-            stage("Code Quality check-SonarQube")
-                
+            stage("1- Code Quality check-SonarQube"){
                 steps{
-                    
                     script{
                        withSonarQubeEnv(credentialsId: 'sonar-jenkins') {
                        sh 'chmod +x gradlew'
@@ -15,3 +12,4 @@ pipeline{
                 }
             }
         }
+    }
