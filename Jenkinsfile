@@ -20,7 +20,7 @@ pipeline{
                     }
                 }
             }
-            stage("Creating docker image ")
+            stage("Building and pushing docker image "){
             steps{
                 script{
                   withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_password')]) {
@@ -29,10 +29,9 @@ pipeline{
                      docker login -u admin -p $docker_pass 3.131.154.78:8083
                      docker push http://3.131.154.78:8083/springapp:${VERSION}
                      docker rmi http://3.131.154.78:8083/springapp:${VERSION}
-                  '''}
-                
-                 
+                  '''}       
                 }
             }
          }
      }
+}
