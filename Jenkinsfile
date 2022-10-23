@@ -1,8 +1,8 @@
 pipeline{
     agent any
-    // environment{
-    //     VERSION = "${env.BUILD_ID}"
-    // }
+    environment{
+        VERSION = "${env.BUILD_ID}"
+    }
         stages{
             stage("1- Code Quality check-SonarQube"){
                 steps{
@@ -20,16 +20,19 @@ pipeline{
                     }
                 }
             }
-    //         stage("Creating docker image ")
-    //         steps{
-    //             script{
-    //               sh '''
-    //               docker build -t http://3.14.177.29:8083/springapp:${VERSION} .
-                  
-    //               docker
-    //               '''
+            stage("Creating docker image ")
+            steps{
+                script{
+                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_password')]) {
+                  sh '''
+                     docker build -t http://3.131.154.78:8083/springapp:${VERSION} .
+                     docker login -u admin -p $docker_pass 3.131.154.78:8083
+                     docker push http://3.131.154.78:8083/springapp:${VERSION}
+                     docker rmi http://3.131.154.78:8083/springapp:${VERSION}
+                  '''}
+                
                  
-    //             }
-    //         }
+                }
+            }
          }
      }
