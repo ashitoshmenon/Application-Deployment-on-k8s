@@ -33,17 +33,19 @@ pipeline{
                 }
             }
          }
-            stage ('Identify mis-config in helm using datree'){
+    // ************* Datree Stage **********************     
+            stage('Identify mis-config in helm using datree'){
             steps{
-                script{
+                script{    
                   dir('kubernetes/'){
                     sh 'helm datree test myapp/'
                   }     
                 }
             }
          }
+    // ************* Datree Stage ********************** 
      }
-//     post { //***Configuring email server**
+//     post { //*********Configuring email server**********
 // 		always {
 // 			mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";  
 // 		}
