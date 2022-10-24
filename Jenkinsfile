@@ -23,7 +23,7 @@ pipeline{
             stage("Building and pushing docker image "){
             steps{
                 script{
-                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_password')]) {
+                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
                   sh '''
                      docker build -t 3.131.154.78:8083/springapp:${VERSION} .
                      docker login -u admin -p $docker_pass 3.131.154.78:8083
