@@ -45,22 +45,24 @@ pipeline{
         //  }
     // ************* Datree Stage ********************** 
      
-              stage("Pushing the helm chart to nexus repository"){
+            stage("Pushing the helm chart to nexus repository"){
             steps{
                 script{
                   withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
-                  sh '''
-                   helmversion=$( helm show chart myapp | grep version | cut -d: -f 2 | tr -d ' ')
-                   tar -czvf myapp-${helmversion}.tgz myapp/
-                   curl -u admin:$docker_pass http://3.131.154.78:8081/repository/helm-hosted-k8s/ --upload-file myapp-${helmversion}.tgz -v
-                  '''}       
+                    dir('kubernetes/'){
+                        sh '''
+                        helmversion=$( helm show chart myapp | grep version | cut -d: -f 2 | tr -d ' ')
+                        tar -czvf myapp-${helmversion}.tgz myapp/
+                        curl -u admin:$docker_pass http://3.131.154.78:8081/repository/helm-hosted-k8s/ --upload-file myapp-${helmversion}.tgz -v
+                        '''}       
+                        }
+                    }
                 }
             }
-         }
-     }
 //     post { //*********Configuring email server**********
 // 		always {
 // 			mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";  
 // 		}
 // 	}
-}
+} // to close stages
+} //to close pipeline 
