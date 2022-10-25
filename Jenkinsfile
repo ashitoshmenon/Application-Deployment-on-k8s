@@ -34,16 +34,29 @@ pipeline{
             }
          }
     // ************* Datree Stage **********************     
-            stage('Identify mis-config in helm using datree'){
+        //     stage('Identify mis-config in helm using datree'){
+        //     steps{
+        //         script{    
+        //           dir('kubernetes/'){
+        //             sh 'helm datree test myapp/'
+        //           }     
+        //         }
+        //     }
+        //  }
+    // ************* Datree Stage ********************** 
+     
+              stage("Pushing the helm chart to nexus repository"){
             steps{
-                script{    
-                  dir('kubernetes/'){
-                    sh 'helm datree test myapp/'
-                  }     
+                script{
+                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
+                  sh '''
+                   helmversion=$( helm show chart myapp | grep version | cut -d: -f 2 | tr -d ' ')
+                   tar -czvf myapp-${helmversion}.tgz myapp/
+                   curl -u admin:$docker_pass http://3.131.154.78:8081/repository/helm-hosted-k8s/ --upload-file myapp-${helmversion}.tgz -v
+                  '''}       
                 }
             }
          }
-    // ************* Datree Stage ********************** 
      }
 //     post { //*********Configuring email server**********
 // 		always {
