@@ -20,21 +20,21 @@ pipeline{
                     }
                 }
             }
-            stage("Building and pushing docker image "){
-            steps{
-                script{
-                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
-                  sh '''
-                     docker build -t 3.131.154.78:8083/springapp:${VERSION} .
-                     docker login -u admin -p $docker_pass 3.131.154.78:8083
-                     docker push 3.131.154.78:8083/springapp:${VERSION}
-                     docker rmi 3.131.154.78:8083/springapp:${VERSION}
-                  '''}       
-                }
-            }
-         }
+        //     stage("2. Building and pushing docker image "){
+        //     steps{
+        //         script{
+        //           withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
+        //           sh '''
+        //              docker build -t 3.131.154.78:8083/springapp:${VERSION} .
+        //              docker login -u admin -p $docker_pass 3.131.154.78:8083
+        //              docker push 3.131.154.78:8083/springapp:${VERSION}
+        //              docker rmi 3.131.154.78:8083/springapp:${VERSION}
+        //           '''}       
+        //         }
+        //     }
+        //  }
     // ************* Datree Stage **********************     
-        //     stage('Identify mis-config in helm using datree'){
+        //     stage('3. Identify mis-config in helm using datree'){
         //     steps{
         //         script{    
         //           dir('kubernetes/'){
@@ -45,20 +45,33 @@ pipeline{
         //  }
     // ************* Datree Stage ********************** 
      
-            stage("Pushing the helm chart to nexus repository"){
-            steps{
-                script{
-                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
-                    dir('kubernetes/'){
-                        sh '''
-                        helmversion=$( helm show chart myapp | grep version | cut -d: -f 2 | tr -d ' ')
-                        tar -czvf myapp-${helmversion}.tgz myapp/
-                        curl -u admin:$docker_pass http://3.131.154.78:8081/repository/helm-hosted-k8s/ --upload-file myapp-${helmversion}.tgz -v
-                        '''}       
-                        }
-                    }
-                }
-            }
+            // stage("4. Pushing the helm chart to nexus repository"){
+            // steps{
+            //     script{
+            //       withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
+            //         dir('kubernetes/'){
+            //             sh '''
+            //             helmversion=$( helm show chart myapp | grep version | cut -d: -f 2 | tr -d ' ')
+            //             tar -czvf myapp-${helmversion}.tgz myapp/
+            //             curl -u admin:$docker_pass http://3.131.154.78:8081/repository/helm-hosted-k8s/ --upload-file myapp-${helmversion}.tgz -v
+            //             '''}       
+            //             }
+            //         }
+            //     }
+            // }
+
+            // stage(Manual Approval){
+            //     steps{
+            //         script
+            //         timeout(10) {
+            //          mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";
+            //     }
+            // }
+
+
+
+
+            
 //     post { //*********Configuring email server**********
 // 		always {
 // 			mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";  
