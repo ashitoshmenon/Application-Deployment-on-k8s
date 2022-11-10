@@ -20,19 +20,56 @@ pipeline{
                     }
                 }
             }
-        //     stage("2. Building and pushing docker image "){
-        //     steps{
-        //         script{
-        //           withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
-        //           sh '''
-        //              docker build -t 3.131.154.78:8083/springapp:${VERSION} .
-        //              docker login -u admin -p $docker_pass 3.131.154.78:8083
-        //              docker push 3.131.154.78:8083/springapp:${VERSION}
-        //              docker rmi 3.131.154.78:8083/springapp:${VERSION}
-        //           '''}       
-        //         }
-        //     }
-        //  }
+            // Stage 2 of the CI/CD Pipeline
+            stage("2. Building and pushing docker image "){
+            steps{
+                script{
+                  withCredentials([string(credentialsId: 'nexus_pass', variable: 'docker_pass')]) {
+                  sh '''
+                     docker build -t 3.131.154.78:8083/springapp:${VERSION} .
+                     docker login -u admin -p $docker_pass 3.131.154.78:8083
+                     docker push 3.131.154.78:8083/springapp:${VERSION}
+                     docker rmi 3.131.154.78:8083/springapp:${VERSION}
+                  '''}       
+                }
+            }
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ************* Datree Stage **********************     
         //     stage('3. Identify mis-config in helm using datree'){
         //     steps{
