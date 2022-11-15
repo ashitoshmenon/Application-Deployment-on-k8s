@@ -48,6 +48,7 @@ pipeline{
         //  }
         // }
         // Stage 4: Adding Helm chart to Nexus
+
             stage("4. Pushing the helm chart to nexus repository"){
             steps{
                 script{
@@ -62,7 +63,34 @@ pipeline{
                     }
                 }
             }
+        //     // Stage 5 to deploy application on the k8s cluster.
+        //     stage('Deploying application on k8s cluster') {
+        //     steps {
+        //        script{
+        //            withCredentials([kubeconfigFile(credentialsId: 'kubernetes-config', variable: 'KUBECONFIG')]) {
+        //                 dir('kubernetes/') {
+        //                   sh 'helm upgrade --install --set image.repository="34.125.214.226:8083/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ ' 
+        //                 }
+        //             }
+        //        }
+        //     }
+        // }
+            
+            
+            
+            
 
+
+
+
+
+
+
+
+
+
+
+            
             // stage(Manual Approval){
             //     steps{
             //         script
