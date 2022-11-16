@@ -3,7 +3,7 @@ pipeline{
     // environment{
     //     VERSION = "${env.BUILD_ID}"
     // }
-    //     stages{
+          stages{
     //         stage("1- Code Quality check-SonarQube"){
     //             steps{
     //                 script{
