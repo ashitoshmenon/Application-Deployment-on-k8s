@@ -1,8 +1,8 @@
 pipeline{
     agent any
-    // environment{
-    //     VERSION = "${env.BUILD_ID}"
-    // }
+    environment{
+        VERSION = "${env.BUILD_ID}"
+    }
           stages{
     //         stage("1- Code Quality check-SonarQube"){
     //             steps{
