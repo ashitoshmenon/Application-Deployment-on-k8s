@@ -4,23 +4,23 @@ pipeline{
         VERSION = "${env.BUILD_ID}"
     }
           stages{
-    //         stage("1- Code Quality check-SonarQube"){
-    //             steps{
-    //                 script{
-    //                    withSonarQubeEnv(credentialsId: 'sonar-token') {
-    //                    sh 'chmod +x gradlew'
-    //                    sh './gradlew sonarqube'
-    //                     }
-    //                    timeout(time: 05, unit: 'MINUTES') {
-    //                    def ab = waitForQualityGate() //ab is a variable and storing qualit gate function
-    //                    if (ab.status != 'OK') {   //checking status of variable
-    //                     error "Pipeline failed due to ${ab.status}"
-    //                    }
-    //                    } 
-    //                 }
-    //             }
-    //         }
-            // Stage 2 of the CI/CD Pipeline
+            stage("1- Code Quality check-SonarQube"){
+                steps{
+                    script{
+                       withSonarQubeEnv(credentialsId: 'sonar-token') {
+                       sh 'chmod +x gradlew'
+                       sh './gradlew sonarqube'
+                        }
+                       timeout(time: 05, unit: 'MINUTES') {
+                       def ab = waitForQualityGate() //ab is a variable and storing qualit gate function
+                       if (ab.status != 'OK') {   //checking status of variable
+                        error "Pipeline failed due to ${ab.status}"
+                       }
+                       } 
+                    }
+                }
+            }
+            Stage 2 of the CI/CD Pipeline
             stage("2. Building and pushing docker image "){
             steps{
                 script{
@@ -63,18 +63,6 @@ pipeline{
                     }
                 }
             }
-        //     // Stage 5 to deploy application on the k8s cluster.
-        //     stage('Deploying application on k8s cluster') {
-        //     steps {
-        //        script{
-        //            withCredentials([kubeconfigFile(credentialsId: 'kubernetes-config', variable: 'KUBECONFIG')]) {
-        //                 dir('kubernetes/') {
-        //                   sh 'helm upgrade --install --set image.repository="34.125.214.226:8083/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ ' 
-        //                 }
-        //             }
-        //        }
-        //     }
-        // }
             
             
             
