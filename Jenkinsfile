@@ -20,7 +20,7 @@ pipeline{
                     }
                 }
             }
-            Stage 2 of the CI/CD Pipeline
+            //Stage 2 of the CI/CD Pipeline..
             stage("2. Building and pushing docker image "){
             steps{
                 script{
