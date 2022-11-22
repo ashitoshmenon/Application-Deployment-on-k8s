@@ -36,17 +36,17 @@ pipeline{
          }
         //     //Stage 3 Using Datree to indentifing misconfig 
 
-        //     stage('3. Identify mis-config in helm using datree'){
-        //       steps{
-        //         script{    
-        //           dir('kubernetes/'){
-        //             withEnv(['DATREE_TOKEN=db7d5b3b-4ce9-4973-8176-2cc9234cb97c']){
-        //                sh 'helm datree test myapp'
-        //           }     
-        //         }
-        //     }
-        //  }
-        // }
+            stage('3. Identify mis-config in helm using datree'){
+              steps{
+                script{    
+                  dir('kubernetes/'){
+                    withEnv(['DATREE_TOKEN=db7d5b3b-4ce9-4973-8176-2cc9234cb97c']){
+                       sh 'helm datree test myapp'
+                  }     
+                }
+            }
+         }
+        }
         // Stage 4: Adding Helm chart to Nexus
 
             stage("4. Pushing the helm chart to nexus repository"){
@@ -63,38 +63,6 @@ pipeline{
                     }
                 }
             }
-            
-            
-            
-            
 
-
-
-
-
-
-
-
-
-
-
-            
-            // stage(Manual Approval){
-            //     steps{
-            //         script
-            //         timeout(10) {
-            //          mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";
-            //     }
-            // }
-
-
-
-
-            
-//     post { //*********Configuring email server**********
-// 		always {
-// 			mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "ackermankevi@outlook.com";  
-// 		}
-// 	}
 } // to close stages
 } //to close pipeline 
